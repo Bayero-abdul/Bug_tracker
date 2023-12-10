@@ -3,6 +3,5 @@ Flask-RESTx==0.7.0
 Flask-JWT-Extended==4.3.0
 Flask-SQLAlchemy==3.0.0
 Flask-Migrate==3.1.0
-Flask-Script==2.0.6
 python-dotenv==0.19.1
 mysql-connector-python==8.0.23
