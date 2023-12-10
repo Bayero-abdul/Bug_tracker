@@ -40,7 +40,7 @@ class Registration(Resource):
         new_user = Users(
             fullname=data['fullname'],
             email=data['email'],
-            hashed_password=hashed_password,
+            password=hashed_password,
             role=data.get('role', UserRole.DEVELOPER.value)
         )
 

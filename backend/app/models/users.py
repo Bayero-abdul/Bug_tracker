@@ -17,7 +17,7 @@ class Users(BaseModel):
         db.Enum(UserRole),
         nullable=False,
         default=UserRole.DEVELOPER.value)
-    hashed_password = db.Column(db.String(250), nullable=False)
+    password = db.Column(db.String(250), nullable=False)
 
     def __repr__(self):
         return f"<User {self.fullname}>"

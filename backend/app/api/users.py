@@ -13,7 +13,6 @@ user_model = users_ns.model('User', {
     'fullname': fields.String(required=True, description='User Fullname'),
     'email': fields.String(required=True, description='User Email'),
     'role': fields.String(description='User Role'),
-    'hashed_password': fields.String(required=True, description='User Password'),
 })
 
 
@@ -43,7 +42,7 @@ class UsersList(Resource):
         new_user = Users(
             fullname=data.get("fullname"),
             email=data.get("email"),
-            hashed_password=hashed_password,
+            password=hashed_password,
             role=data.get('role', UserRole.DEVELOPER.value),
         )
 
@@ -68,17 +67,13 @@ class User(Resource):
     def put(self, user_id):
         """Update user by ID"""
         data = request.get_json()
-        user = Users.query.get(id)
+        user = Users.query.get(user_id)
         if user is None:
             return {"message": "User not found"}, 404
-
-        hashed_password = generate_password_hash(
-            data.get("password"), method='scrypt')
 
         user.update(
             fullname=data.get("fullname"),
             email=data.get("email"),
-            hashed_password=hashed_password,
             role=data.get('role', UserRole.DEVELOPER.value),
         )
 
