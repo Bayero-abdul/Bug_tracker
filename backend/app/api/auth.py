@@ -9,7 +9,7 @@ from flask_jwt_extended import (
     unset_jwt_cookies
 )
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.models.user import Users, db, UserRole
+from app.models.users import Users, db, UserRole
 
 
 auth_ns = Namespace("auth", description='Authentication operations')
@@ -44,9 +44,7 @@ class Registration(Resource):
             role=data.get('role', UserRole.DEVELOPER.value)
         )
 
-        db.session.add(new_user)
-        db.session.commit()
-
+        new_user.save()
         return {'message': f'{new_user} registerd successfully'}
 
 
@@ -54,9 +52,10 @@ class Registration(Resource):
 class Login(Resource):
     @auth_ns.expect(login_model)
     def post(self):
-        data = auth_ns.payload
+        data = request.get_json()
 
-        user = Users.query.filter_by(email=data['email']).first()
+        email = data.get("email")
+        user = Users.query.filter_by(email=email).first()
 
         if user and check_password_hash(
                 user.hashed_password, data['password']):
