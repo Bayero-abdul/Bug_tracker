@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restx import Api
 from flask_migrate import Migrate
 from flask_jwt_extended import (
@@ -9,17 +10,21 @@ from flask_jwt_extended import (
     get_jwt_identity
 )
 from dotenv import load_dotenv
+from datetime import datetime, timedelta, timezone
+
 from app.config import Config
 from app.models.base_model import db
-from app.models.user import Users
+from app.models.users import Users
 from app.api.auth import auth_ns
-from datetime import datetime, timedelta, timezone
+from app.api.users import users_ns
 
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 api = Api(
     app,
@@ -33,8 +38,7 @@ migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
 api.add_namespace(auth_ns)
-
-# two jwt decorator set jwt current user
+api.add_namespace(users_ns)
 
 
 @jwt.user_identity_loader
