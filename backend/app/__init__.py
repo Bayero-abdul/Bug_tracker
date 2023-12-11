@@ -14,10 +14,11 @@ from datetime import datetime, timedelta, timezone
 
 from app.config import Config
 from app.models.base_model import db
-from app.models.users import Users
+from app.models.user import User
+from app.models.project import Project
 from app.api.auth import auth_ns
-from app.api.users import users_ns
-
+from app.api.user import user_ns
+from app.api.project import project_ns
 
 load_dotenv()
 
@@ -38,7 +39,8 @@ migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
 api.add_namespace(auth_ns)
-api.add_namespace(users_ns)
+api.add_namespace(user_ns)
+api.add_namespace(project_ns)
 
 
 @jwt.user_identity_loader

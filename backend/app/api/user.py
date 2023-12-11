@@ -2,13 +2,13 @@ from flask import request
 from flask_restx import Resource, Namespace, fields, marshal_with
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.models.users import Users, UserRole
+from app.models.user import User, UserRole
 from app import db
 
 
-users_ns = Namespace('users', description='User operations')
+user_ns = Namespace('users', description='User operations')
 
-user_model = users_ns.model('User', {
+user_model = user_ns.model('User', {
     'id': fields.Integer(required=True, description='User ID'),
     'fullname': fields.String(required=True, description='User Fullname'),
     'email': fields.String(required=True, description='User Email'),
@@ -16,30 +16,31 @@ user_model = users_ns.model('User', {
 })
 
 
-@users_ns.route('/')
+@user_ns.route('/')
 class UsersList(Resource):
-    @users_ns.doc("List users")
-    @users_ns.marshal_list_with(user_model)
+    @user_ns.doc("List users")
+    @user_ns.marshal_list_with(user_model)
     def get(self):
         """Get all users"""
-        users = Users.query.all()
-        return users
+        users = User.query.all()
+        return user
 
-    @users_ns.doc("Create user")
-    @users_ns.expect(user_model)
-    @users_ns.marshal_with(user_model)
+    @user_ns.doc("Create user")
+    @user_ns.expect(user_model)
+    @user_ns.marshal_with(user_model)
     def post(self):
         """Create a new user"""
         data = request.get_json()
+
         email = data.get("email")
-        user = Users.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first()
         if user is not None:
             return {"message": f"User with email {email} already exists"}, 400
 
         hashed_password = generate_password_hash(
             data.get("password"), method='scrypt')
 
-        new_user = Users(
+        new_user = User(
             fullname=data.get("fullname"),
             email=data.get("email"),
             password=hashed_password,
@@ -50,24 +51,26 @@ class UsersList(Resource):
         return new_user, 201
 
 
-@users_ns.route('/<int:user_id>')
-class User(Resource):
-    @users_ns.doc("Get user")
-    @users_ns.marshal_with(user_model)
+@user_ns.route('/<int:user_id>')
+class UserDetail(Resource):
+    @user_ns.doc("Get user")
+    @user_ns.marshal_with(user_model)
     def get(self, user_id):
         """Get user by ID"""
-        user = Users.query.get(user_id)
+        user = User.query.get(user_id)
         if user is None:
             return {"message": "User not found"}, 404
+
         return user
 
-    @users_ns.doc("Update user")
-    @users_ns.expect(user_model)
-    @users_ns.marshal_with(user_model)
+    @user_ns.doc("Update user")
+    @user_ns.expect(user_model)
+    @user_ns.marshal_with(user_model)
     def put(self, user_id):
         """Update user by ID"""
         data = request.get_json()
-        user = Users.query.get(user_id)
+
+        user = User.query.get(user_id)
         if user is None:
             return {"message": "User not found"}, 404
 
@@ -79,10 +82,10 @@ class User(Resource):
 
         return user
 
-    @users_ns.doc("Delete user")
+    @user_ns.doc("Delete user")
     def delete(self, user_id):
         """Delete user by ID"""
-        user = Users.query.get(user_id)
+        user = User.query.get(user_id)
         if user is None:
             return {"message": "User not found"}, 404
 

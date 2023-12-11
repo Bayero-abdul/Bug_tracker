@@ -9,7 +9,7 @@ from flask_jwt_extended import (
     unset_jwt_cookies
 )
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.models.users import Users, db, UserRole
+from app.models.user import User, db, UserRole
 
 
 auth_ns = Namespace("auth", description='Authentication operations')
@@ -37,7 +37,7 @@ class Registration(Resource):
         hashed_password = generate_password_hash(
             data['password'], method='scrypt')
 
-        new_user = Users(
+        new_user = User(
             fullname=data['fullname'],
             email=data['email'],
             password=hashed_password,
@@ -55,7 +55,7 @@ class Login(Resource):
         data = request.get_json()
 
         email = data.get("email")
-        user = Users.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(
                 user.hashed_password, data['password']):
