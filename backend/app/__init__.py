@@ -16,6 +16,9 @@ from app.config import Config
 from app.models.base_model import db
 from app.models.user import User
 from app.models.project import Project
+from app.models.ticket import Ticket
+from app.models.team import Team
+from app.models.comment import Comment
 from app.api.auth import auth_ns
 from app.api.user import user_ns
 from app.api.project import project_ns
@@ -25,7 +28,7 @@ load_dotenv()
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 api = Api(
     app,
@@ -73,7 +76,8 @@ def refresh_expiring_jwts(response):
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(app=app, db=db, Users=Users)
+    return dict(app=app, db=db, User=User, Project=Project,
+                Ticket=Ticket, Team=Team, Comment=Comment)
 
 
 if __name__ == '__main__':
