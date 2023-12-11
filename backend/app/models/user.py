@@ -8,7 +8,7 @@ class UserRole(Enum):
     DEVELOPER = 'developer'
 
 
-class Users(BaseModel):
+class User(BaseModel):
     __tablename__ = 'users'
 
     fullname = db.Column(db.String(250), nullable=False)
