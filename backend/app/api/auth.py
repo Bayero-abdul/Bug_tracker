@@ -15,16 +15,16 @@ from app.models.user import User, db, UserRole
 auth_ns = Namespace("auth", description='Authentication operations')
 
 registration_model = auth_ns.model('Registration', {
-    'fullname': fields.String(required=True, description='User full name'),
-    'email': fields.String(required=True, description='User email address'),
-    'password': fields.String(required=True, description='User password'),
-    'role': fields.String(description='User role (admin/developer)'),
+    'fullname': fields.String(required=True, description='User full name', default=""),
+    'email': fields.String(required=True, description='User email address', default=""),
+    'password': fields.String(required=True, description='User password', default=""),
+    'role': fields.String(description='User role (admin/developer)', default=""),
 
 })
 
 login_model = auth_ns.model('Login', {
-    'email': fields.String(required=True, description='User email address'),
-    'password': fields.String(required=True, description='User password'),
+    'email': fields.String(required=True, description='User email address', default=""),
+    'password': fields.String(required=True, description='User password', default=""),
 })
 
 
@@ -32,18 +32,13 @@ login_model = auth_ns.model('Login', {
 class Registration(Resource):
     @auth_ns.expect(registration_model)
     def post(self):
-        data = auth_ns.payload
+        data = request.get_json()
 
         hashed_password = generate_password_hash(
             data['password'], method='scrypt')
 
-        new_user = User(
-            fullname=data['fullname'],
-            email=data['email'],
-            password=hashed_password,
-            role=data.get('role', UserRole.DEVELOPER.value)
-        )
-
+        data["password"] = hashed_password
+        new_user = User(**data)
         new_user.save()
         return {'message': f'{new_user} registerd successfully'}
 
@@ -58,7 +53,7 @@ class Login(Resource):
         user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(
-                user.hashed_password, data['password']):
+                user.password, data['password']):
             response = jsonify({"message": "login successful"})
             access_token = create_access_token(identity=user)
             set_access_cookies(response, access_token)

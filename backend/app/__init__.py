@@ -22,6 +22,7 @@ from app.models.comment import Comment
 from app.api.auth import auth_ns
 from app.api.user import user_ns
 from app.api.project import project_ns
+from app.api.ticket import ticket_ns
 
 load_dotenv()
 
@@ -44,6 +45,7 @@ jwt = JWTManager(app)
 api.add_namespace(auth_ns)
 api.add_namespace(user_ns)
 api.add_namespace(project_ns)
+api.add_namespace(ticket_ns)
 
 
 @jwt.user_identity_loader
@@ -54,7 +56,7 @@ def user_identity_lookup(user):
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    return Users.query.filter_by(id=identity).first()
+    return User.query.filter_by(id=identity).first()
 
 
 # implict token refresh

@@ -9,23 +9,24 @@ from app import db
 user_ns = Namespace('users', description='User operations')
 
 user_model = user_ns.model('User', {
-    'id': fields.Integer(required=True, description='User ID'),
-    'fullname': fields.String(required=True, description='User Fullname'),
-    'email': fields.String(required=True, description='User Email'),
-    'role': fields.String(description='User Role'),
+    'id': fields.Integer(readonly=True, description='User ID'),
+    'fullname': fields.String(required=True, description='User Fullname', default=""),
+    'email': fields.String(required=True, description='User Email', default=""),
+    'role': fields.String(description='User Role'), default=""),
+    'password': fields.String(readonly=True, description='User password', default="")
 })
 
 
 @user_ns.route('/')
 class UsersList(Resource):
-    @user_ns.doc("List users")
+    @user_ns.doc("Get all users")
     @user_ns.marshal_list_with(user_model)
     def get(self):
         """Get all users"""
         users = User.query.all()
-        return user
+        return users
 
-    @user_ns.doc("Create user")
+    @user_ns.doc("Create a new user")
     @user_ns.expect(user_model)
     @user_ns.marshal_with(user_model)
     def post(self):
@@ -40,12 +41,8 @@ class UsersList(Resource):
         hashed_password = generate_password_hash(
             data.get("password"), method='scrypt')
 
-        new_user = User(
-            fullname=data.get("fullname"),
-            email=data.get("email"),
-            password=hashed_password,
-            role=data.get('role', UserRole.DEVELOPER.value),
-        )
+        data["password"] = hashed_password
+        new_user = User(**data)
 
         new_user.save()
         return new_user, 201
@@ -53,7 +50,7 @@ class UsersList(Resource):
 
 @user_ns.route('/<int:user_id>')
 class UserDetail(Resource):
-    @user_ns.doc("Get user")
+    @user_ns.doc("Get user by ID")
     @user_ns.marshal_with(user_model)
     def get(self, user_id):
         """Get user by ID"""
@@ -63,7 +60,7 @@ class UserDetail(Resource):
 
         return user
 
-    @user_ns.doc("Update user")
+    @user_ns.doc("UPdate user by ID")
     @user_ns.expect(user_model)
     @user_ns.marshal_with(user_model)
     def put(self, user_id):
@@ -74,15 +71,10 @@ class UserDetail(Resource):
         if user is None:
             return {"message": "User not found"}, 404
 
-        user.update(
-            fullname=data.get("fullname"),
-            email=data.get("email"),
-            role=data.get('role', UserRole.DEVELOPER.value),
-        )
-
+        user.update(**data)
         return user
 
-    @user_ns.doc("Delete user")
+    @user_ns.doc("Delete user by ID")
     def delete(self, user_id):
         """Delete user by ID"""
         user = User.query.get(user_id)
