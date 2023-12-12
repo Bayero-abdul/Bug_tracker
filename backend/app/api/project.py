@@ -9,9 +9,9 @@ from app import db
 project_ns = Namespace('projects', description='Project operations')
 
 project_model = project_ns.model('Project', {
-    'id': fields.Integer(required=True, description='Project ID'),
-    'name': fields.String(required=True, description='Project Name'),
-    'description': fields.String(description='Project Description'),
+    'id': fields.Integer(readonly=True, description='Project ID'),
+    'name': fields.String(required=True, description='Project Name', default=""),
+    'description': fields.String(description='Project Description', default=""),
 })
 
 
@@ -31,11 +31,7 @@ class ProjectsList(Resource):
         """Create a new project"""
         data = request.get_json()
 
-        new_project = Project(
-            name=data.get('name'),
-            description=data.get('description'),
-        )
-
+        new_project = Project(**data)
         new_project.save()
         return new_project, 201
 
@@ -49,7 +45,6 @@ class ProjectDetail(Resource):
         project = Project.query.get(project_id)
         if project is None:
             return {"message": "Project not found"}, 404
-
         return project
 
     @project_ns.doc("Update project")
@@ -63,15 +58,11 @@ class ProjectDetail(Resource):
         if project is None:
             return {"message": "User not found"}, 404
 
-        project.update(
-            name=data.get('name'),
-            description=data.get('description'),
-        )
+        project.update(**data)
 
         return project
 
-    @project_ns.doc("Delete project")
-    @project_ns.response(204, 'Project deleted successfully')
+    @project_ns.doc("Delete project by ID")
     def delete(self, project_id):
         """Delete project by ID"""
         project = Project.query.get(project_id)
@@ -79,4 +70,4 @@ class ProjectDetail(Resource):
             return {"message": "Project not found"}, 404
 
         project.delete()
-        return '', 204
+        return {"message": "Project deleted successfully"}, 204
