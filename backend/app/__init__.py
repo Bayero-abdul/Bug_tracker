@@ -15,14 +15,16 @@ from datetime import datetime, timedelta, timezone
 from app.config import Config
 from app.models.base_model import db
 from app.models.user import User
+from app.models.team import Team
 from app.models.project import Project
 from app.models.ticket import Ticket
-from app.models.team import Team
 from app.models.comment import Comment
 from app.api.auth import auth_ns
 from app.api.user import user_ns
+from app.api.team import team_ns
 from app.api.project import project_ns
 from app.api.ticket import ticket_ns
+from app.api.comment import comment_ns
 
 load_dotenv()
 
@@ -46,6 +48,8 @@ api.add_namespace(auth_ns)
 api.add_namespace(user_ns)
 api.add_namespace(project_ns)
 api.add_namespace(ticket_ns)
+api.add_namespace(comment_ns)
+api.add_namespace(team_ns)
 
 
 @jwt.user_identity_loader
@@ -82,5 +86,5 @@ def make_shell_context():
                 Ticket=Ticket, Team=Team, Comment=Comment)
 
 
-if __name__ == '__main__':
-    app.run()
+#if __name__ == '__main__':
+#    app.run()

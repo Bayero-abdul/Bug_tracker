@@ -28,7 +28,7 @@ ticket_ns = Namespace('tickets', description='Ticket operations')
 
 ticket_model = ticket_ns.model('Ticket', {
     'id': fields.Integer(readonly=True, description='Ticket ID'),
-    'title': fields.String(required=True, description='Ticket title', default=""),
+    'title': fields.String(required=True, description='Ticket title', default="title"),
     'description': fields.String(description='Ticket description', default=""),
     'author_id': fields.Integer(description='Author ID', default=None),
     'assigned_to_id': fields.Integer(description='Assigned To ID', default=None),
@@ -70,9 +70,7 @@ class TicketDetail(Resource):
     @ticket_ns.marshal_with(ticket_model)
     def get(self, ticket_id):
         """Get ticket by ID"""
-        ticket = Ticket.query.get(ticket_id)
-        if ticket is None:
-            return {"message": "Ticket not found"}, 404
+        ticket = Ticket.query.get_or_404(ticket_id)
         return ticket
 
     @ticket_ns.doc("Update ticket by ID")
@@ -82,19 +80,14 @@ class TicketDetail(Resource):
         """Update ticket by ID"""
         data = request.get_json()
 
-        ticket = Ticket.query.get(ticket_id)
-        if ticket is None:
-            return {"message": "Ticket not found"}, 404
-
+        ticket = Ticket.query.get_or_404(ticket_id)
         ticket.update(**data)
         return ticket
 
     @ticket_ns.doc("Delete ticket by ID")
+    @ticket_ns.response(204, 'Ticket deleted successfully')
     def delete(self, ticket_id):
         """Delete ticket by ID"""
-        ticket = Ticket.query.get(ticket_id)
-        if ticket is None:
-            return {"message": "Ticket not found"}, 404
-
+        ticket = Ticket.query.get_or_404(ticket_id)
         ticket.delete()
-        return {"message": "Ticket deleted successfully"}, 204
+        return "", 204

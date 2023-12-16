@@ -1,6 +1,6 @@
 """Edit tickets table
 
-Revision ID: cb93146bbb9f
+Revision ID: c920fa3bbe07
 Revises: b32ef8faa9e0
 Create Date: 2023-12-11 16:33:22.122710
 
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import mysql
 
 # revision identifiers, used by Alembic.
-revision = 'cb93146bbb9f'
+revision = 'c920fa3bbe07'
 down_revision = 'b32ef8faa9e0'
 branch_labels = None
 depends_on = None

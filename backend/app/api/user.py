@@ -12,7 +12,7 @@ user_model = user_ns.model('User', {
     'id': fields.Integer(readonly=True, description='User ID'),
     'fullname': fields.String(required=True, description='User Fullname', default=""),
     'email': fields.String(required=True, description='User Email', default=""),
-    'role': fields.String(description='User Role'), default=""),
+    'role': fields.String(description='User Role', default=""),
     'password': fields.String(readonly=True, description='User password', default="")
 })
 
@@ -54,10 +54,7 @@ class UserDetail(Resource):
     @user_ns.marshal_with(user_model)
     def get(self, user_id):
         """Get user by ID"""
-        user = User.query.get(user_id)
-        if user is None:
-            return {"message": "User not found"}, 404
-
+        user = User.query.get_or_404(user_id)
         return user
 
     @user_ns.doc("UPdate user by ID")
@@ -67,19 +64,14 @@ class UserDetail(Resource):
         """Update user by ID"""
         data = request.get_json()
 
-        user = User.query.get(user_id)
-        if user is None:
-            return {"message": "User not found"}, 404
-
+        user = User.query.get_or_404(user_id)
         user.update(**data)
         return user
 
     @user_ns.doc("Delete user by ID")
+    @user_ns.response(204, 'User deleted successfully')
     def delete(self, user_id):
         """Delete user by ID"""
-        user = User.query.get(user_id)
-        if user is None:
-            return {"message": "User not found"}, 404
-
+        user = User.query.get_or_404(user_id)
         user.delete()
-        return {"message": "User deleted successfully"}, 204
+        return "", 204
