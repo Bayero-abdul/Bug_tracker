@@ -11,7 +11,7 @@ class Project(BaseModel):
     description = db.Column(db.Text)
 
     tickets = relationship('Ticket', backref='project')
-    teams = relationship('Team', backref='project')
+    team = relationship('Team', backref='project')
 
     def __repr__(self):
         return f"<Project {self.name}>"

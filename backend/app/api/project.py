@@ -10,7 +10,7 @@ project_ns = Namespace('projects', description='Project operations')
 
 project_model = project_ns.model('Project', {
     'id': fields.Integer(readonly=True, description='Project ID'),
-    'name': fields.String(required=True, description='Project Name', default=""),
+    'name': fields.String(required=True, description='Project Name', default="name"),
     'description': fields.String(description='Project Description', default=""),
 })
 
@@ -42,9 +42,7 @@ class ProjectDetail(Resource):
     @project_ns.marshal_with(project_model)
     def get(self, project_id):
         """Get project by ID"""
-        project = Project.query.get(project_id)
-        if project is None:
-            return {"message": "Project not found"}, 404
+        project = Project.query.get_or_404(project_id)
         return project
 
     @project_ns.doc("Update project")
@@ -54,20 +52,14 @@ class ProjectDetail(Resource):
         """Update project by ID"""
         data = request.get_json()
 
-        project = Project.query.get(project_id)
-        if project is None:
-            return {"message": "User not found"}, 404
-
+        project = Project.query.get_or_404(project_id)
         project.update(**data)
-
         return project
 
     @project_ns.doc("Delete project by ID")
+    @project_ns.response(204, 'Project deleted successfully')
     def delete(self, project_id):
         """Delete project by ID"""
-        project = Project.query.get(project_id)
-        if project is None:
-            return {"message": "Project not found"}, 404
-
+        project = Project.query.get_or_404(project_id)
         project.delete()
-        return {"message": "Project deleted successfully"}, 204
+        return "", 204

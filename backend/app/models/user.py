@@ -2,6 +2,14 @@ from app.models.base_model import BaseModel, db
 from enum import Enum
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from sqlalchemy import Table
+
+
+team_user_association = Table(
+    'team_user_association', BaseModel.metadata,
+    db.Column('team_id', db.Integer, db.ForeignKey('team.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
+)
 
 
 class UserRole(Enum):
@@ -20,6 +28,10 @@ class User(BaseModel):
         default=UserRole.DEVELOPER.value)
     password = db.Column(db.String(250), nullable=False)
 
+    teams = relationship(
+        'Team',
+        secondary='team_user_association',
+        back_populates='users')
     tickets_authored = relationship(
         'Ticket',
         backref='author',
