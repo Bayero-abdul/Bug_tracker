@@ -1,0 +1,15 @@
+body {
+    font-family: roboto;
+}
+
+.log {
+    text-align: center;
+    font-weight: bold;
+    font-size: 35px;
+    margin-bottom: 0;
+}
+.below-log {
+    text-align: center;
+    margin-top: 0;
+    line-height: 40px;
+}
