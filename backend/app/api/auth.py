@@ -34,6 +34,11 @@ class Registration(Resource):
     def post(self):
         data = request.get_json()
 
+        email = data.get("email")
+        user = User.query.filter_by(email=email).first()
+        if user is not None:
+            return {"message": f"User with email {email} already exists"}, 400
+ 
         hashed_password = generate_password_hash(
             data['password'], method='scrypt')
 
