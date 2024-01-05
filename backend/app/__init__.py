@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, make_response, jsonify
 from flask_cors import CORS
 from flask_restx import Api
 from flask_migrate import Migrate
@@ -25,13 +25,15 @@ from app.api.team import team_ns
 from app.api.project import project_ns
 from app.api.ticket import ticket_ns
 from app.api.comment import comment_ns
+import logging
+
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173", "expose_headers": "X-Fields"}})
 
 api = Api(
     app,
@@ -63,6 +65,15 @@ def user_lookup_callback(_jwt_header, jwt_data):
     return User.query.filter_by(id=identity).first()
 
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  response.headers.add("Access-Control-Allow-Headers", "Content-Type, X-Fields") 
+  response.headers.add('Access-Control-Allow-Credentials', 'true')
+  return response
+
+
 # implict token refresh
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -73,6 +84,11 @@ def refresh_expiring_jwts(response):
         if target_timestamp > exp_timestamp:
             access_token = create_access_token(identity=get_jwt_identity())
             set_access_cookies(response, access_token)
+
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')  
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
         return response
     except (RuntimeError, KeyError):
         # Case where there is not a valid JWT. Just return the original
@@ -85,6 +101,3 @@ def make_shell_context():
     return dict(app=app, db=db, User=User, Project=Project,
                 Ticket=Ticket, Team=Team, Comment=Comment)
 
-
-#if __name__ == '__main__':
-#    app.run()
