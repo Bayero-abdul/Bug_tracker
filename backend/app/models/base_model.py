@@ -13,3 +13,19 @@ class BaseModel(db.Model):
         db.DateTime,
         default=datetime.utcnow,
         onupdate=datetime.utcnow)
+
+    def save(self):
+        """Save the current instance to the database."""
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        """Delete the current instance from the database."""
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self, **kwargs):
+        """Update the attributes of the current instance with new values."""
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        db.session.commit()

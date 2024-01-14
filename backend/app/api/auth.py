@@ -9,22 +9,22 @@ from flask_jwt_extended import (
     unset_jwt_cookies
 )
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.models.user import Users, db, UserRole
+from app.models.user import User, db, UserRole
 
 
 auth_ns = Namespace("auth", description='Authentication operations')
 
 registration_model = auth_ns.model('Registration', {
-    'fullname': fields.String(required=True, description='User full name'),
-    'email': fields.String(required=True, description='User email address'),
-    'password': fields.String(required=True, description='User password'),
-    'role': fields.String(description='User role (admin/developer)'),
+    'fullname': fields.String(required=True, description='User full name', default=""),
+    'email': fields.String(required=True, description='User email address', default=""),
+    'password': fields.String(required=True, description='User password', default=""),
+    'role': fields.String(readonly=True, description='User role (admin/developer)', default=UserRole.DEVELOPER.value),
 
 })
 
 login_model = auth_ns.model('Login', {
-    'email': fields.String(required=True, description='User email address'),
-    'password': fields.String(required=True, description='User password'),
+    'email': fields.String(required=True, description='User email address', default=""),
+    'password': fields.String(required=True, description='User password', default=""),
 })
 
 
@@ -32,21 +32,19 @@ login_model = auth_ns.model('Login', {
 class Registration(Resource):
     @auth_ns.expect(registration_model)
     def post(self):
-        data = auth_ns.payload
+        data = request.get_json()
 
+        email = data.get("email")
+        user = User.query.filter_by(email=email).first()
+        if user is not None:
+            return {"message": f"User with email {email} already exists"}, 400
+ 
         hashed_password = generate_password_hash(
             data['password'], method='scrypt')
 
-        new_user = Users(
-            fullname=data['fullname'],
-            email=data['email'],
-            hashed_password=hashed_password,
-            role=data.get('role', UserRole.DEVELOPER.value)
-        )
-
-        db.session.add(new_user)
-        db.session.commit()
-
+        data["password"] = hashed_password
+        new_user = User(**data)
+        new_user.save()
         return {'message': f'{new_user} registerd successfully'}
 
 
@@ -54,12 +52,13 @@ class Registration(Resource):
 class Login(Resource):
     @auth_ns.expect(login_model)
     def post(self):
-        data = auth_ns.payload
+        data = request.get_json()
 
-        user = Users.query.filter_by(email=data['email']).first()
+        email = data.get("email")
+        user = User.query.filter_by(email=email).first()
 
         if user and check_password_hash(
-                user.hashed_password, data['password']):
+                user.password, data['password']):
             response = jsonify({"message": "login successful"})
             access_token = create_access_token(identity=user)
             set_access_cookies(response, access_token)
