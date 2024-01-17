@@ -73,7 +73,7 @@
 </aside>
 
 <div class=" p-4 sm:ml-64 dark:bg-gray-200">
-    <p>Project Details</p>
+    <p class="pd-paragraph">Project Details</p>
   <div class="p-4  dark:border-gray-700">
      <div class="grid grid-cols-2 gap-4 mb-4">
         <div class="  rounded   bg-white">
@@ -94,10 +94,10 @@
 <!--start of right table-->
   
 
-
+<div class="  h-50 rounded bg-white ">
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-      <div class="">
+      <div class="tm-p">
           <p>Team members</p>
       </div>
       <label for="table-search" class="sr-only">Search</label>
@@ -107,11 +107,11 @@
           </div>
           <input type="text" id="table-search" class="block p-2 ps-10 text-sm text-gray-600 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
       </div>
-        <button class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-indigo-600 dark:text-white dark:border-gray-600 dark:hover:bg-indigo-700 dark:hover:border-indigo-600 dark:focus:ring-indigo-700" type="button">
+        <button class="am-button inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-indigo-600 dark:text-white dark:border-gray-600 dark:hover:bg-indigo-700 dark:hover:border-indigo-600 dark:focus:ring-indigo-700" type="button">
             Add Member
         </button>
   </div>
-  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+  <table class="table-right w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-400 dark:text-gray-800">
           <tr>
               <th scope="col" class="p-4">
@@ -128,7 +128,7 @@
           </tr>
       </thead>
       <tbody>
-          <tr class="bg-white border-b dark:bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-100">
+          <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
               <td class="w-4 p-4">
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
@@ -141,7 +141,7 @@
                   <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
               </td>
           </tr>
-          <tr class="bg-white border-b dark:bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-100">
+          <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
               <td class="w-4 p-4">
               </td>
               
@@ -155,7 +155,7 @@
                   <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
               </td>
           </tr>
-          <tr class="bg-white border-b dark:bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-100">
+          <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
               <td class="w-4 p-4">
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
@@ -168,7 +168,7 @@
                   <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
               </td>
           </tr>
-          <tr class="bg-white border-b dark:bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-100">
+          <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
               <td class="w-4 p-4">
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
@@ -181,7 +181,7 @@
                   <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
               </td>
           </tr>
-          <tr class="bg-white border-b dark:bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-100">
+          <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
               <td class="w-4 p-4">
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
@@ -195,7 +195,7 @@
                   <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
               </td>
           </tr>
-          <tr class="bg-white border-b dark:bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-100">
+          <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
               <td class="w-4 p-4">
               </td>
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-black">
@@ -211,31 +211,202 @@
       </tbody>
   </table>
 </div>
+     </div>
 <!-- end of right table-->
 
      </div>
      
-    <div class="flex  h-48 mb-4 rounded bg-white ">
-        <p class="pt">Project Tickets</p>
+     <div class="  h-50 mb-4 mt-6 rounded bg-white ">
+         <p class="project-ticket-p flex ">Project Tickets</p>
         
+        <table class="table-style text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-200 dark:text-gray-800">
+            <tr>
+                <th scope="col" class="p-4">
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Title
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Status
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Priority
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Type
+                </th>
 
-    <div >
-        <label for="table-search" class="sr-only">Search</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-            </div>
-            <input type="text" id="table-search" class="search-bar block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
-        </div>
-    </div>
+                <th scope="col" class="px-6 py-3">
+                    Assigned To
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Due Date
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
+                <td class="w-4 p-4">
+                </td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                    Apple MacBook Pro 17"
+                </th>
+                <td class="px-6 py-4">
+                    Silver
+                </td>
+                <td class="px-6 py-4">
+                    Laptop
+                </td>
+                <td class="px-6 py-4">
+                    $2999
+                </td>
+                <td class="px-6 py-4">
+                    Farai
+                </td>
+                <td class="px-6 py-4">
+                    Not Specified
+                </td>
+                <td class="px-6 py-4">
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                </td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
+                <td class="w-4 p-4">
+                </td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                    Microsoft Surface Pro
+                </th>
+                <td class="px-6 py-4">
+                    White
+                </td>
+                <td class="px-6 py-4">
+                    Laptop PC
+                </td>
+                <td class="px-6 py-4">
+                    $1999
+                </td>
+                <td class="px-6 py-4">
+                    Ushe
+                </td>
+                <td class="px-6 py-4">
+                    Not Specified
+                </td>
+                <td class="px-6 py-4">
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                </td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
+                <td class="w-4 p-4">
+                </td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                    Magic Mouse 2
+                </th>
+                <td class="px-6 py-4">
+                    Black
+                </td>
+                <td class="px-6 py-4">
+                    Accessories
+                </td>
+                <td class="px-6 py-4">
+                    Table
+                </td>
+                <td class="px-6 py-4">
+                    Jim
+                </td>
+                <td class="px-6 py-4">
+                    Not Specified
+                </td>
+                <td class="px-6 py-4">
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                </td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
+                <td class="w-4 p-4">
+                </td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                    Apple Watch
+                </th>
+                <td class="px-6 py-4">
+                    Silver
+                </td>
+                <td class="px-6 py-4">
+                    Accessories
+                </td>
+                <td class="px-6 py-4">
+                    N/A
+                </td>
+                <td class="px-6 py-4">
+                    Alex
+                </td>
+                <td class="px-6 py-4">
+                    Not Specified
+                </td>
+                <td class="px-6 py-4">
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                </td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100"">
+                <td class="w-4 p-4">
+                </td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                    iPad
+                </th>
+                <td class="px-6 py-4">
+                    Gold
+                </td>
+                <td class="px-6 py-4">
+                    Tablet
+                </td>
+                <td class="px-6 py-4">
+                    Tracking
+                </td>
+                <td class="px-6 py-4">
+                    Ellen
+                </td>
+                <td class="px-6 py-4">
+                    Not Specified
+                </td>
+                <td class="px-6 py-4">
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                </td>
+            </tr>
+            <tr class="bg-white border-b dark:bg-white dark:border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-100">
+                <td class="w-4 p-4">
+                </td>
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-gray-900">
+                    Apple iMac 27"
+                </th>
+                <td class="px-6 py-4">
+                    Silver
+                </td>
+                <td class="px-6 py-4">
+                    PC Desktop
+                </td>
+                <td class="px-6 py-4">
+                    Unknown Bug
+                </td>
+                <td class="px-6 py-4">
+                    Biggie
+                </td>
+                <td class="px-6 py-4">
+                    Not Specified
+                </td>
+                <td class="px-6 py-4">
+                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-        
-    </div>
-    
 </div>
   </div>
 </div>
-
+green !important;
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
   </body>
